@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Tweet</title>
+</head>
+<body>
+    <h1>Edit Tweet</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <textarea name="text" rows="3" cols="40">{{ tweet.text }}</textarea><br>
+        <input type="file" name="image"><br>
+        <button type="submit">Update</button>
+    </form>
+    <a href="{% url 'tweet_list' %}">Back</a>
+</body>
+</html>

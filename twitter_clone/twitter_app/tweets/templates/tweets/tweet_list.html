@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mini Twitter</title>
+</head>
+<body>
+    <h1>Mini Twitter</h1>
+    <a href="{% url 'add_tweet' %}">Add Tweet</a>
+    <hr>
+    {% for tweet in tweets %}
+        <div style="margin-bottom: 20px;">
+            <p>{{ tweet.text }}</p>
+            {% if tweet.image %}
+                <img src="{{ tweet.image.url }}" width="200">
+            {% endif %}
+            <br>
+            <a href="{% url 'edit_tweet' tweet.id %}">Edit</a> |
+            <a href="{% url 'delete_tweet' tweet.id %}">Delete</a>
+        </div>
+    {% endfor %}
+</body>
+</html>
