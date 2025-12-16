@@ -1,0 +1,11 @@
+- hosts: all
+  become: yes
+
+  vars:
+    project_path: /opt/twitter_clone
+
+  tasks:
+    - name: Run pytest inside container
+      command: docker compose run backend pytest
+      args:
+        chdir: "{{ project_path }}"

@@ -1,0 +1,23 @@
+---
+- name: Install nginx based on OS
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install nginx on Debian-based systems
+      apt:
+        name: nginx
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install nginx on RHEL-based systems
+      yum:
+        name: nginx
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Ensure nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: yes

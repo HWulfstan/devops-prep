@@ -1,0 +1,22 @@
+- name: Configure NTP
+  hosts: local
+  become: true
+
+  tasks:
+    - name: Install chrony
+      apt:
+        name: chrony
+        state: present
+        update_cache: yes
+
+    - name: Configure NTP servers
+      copy:
+        dest: /etc/chrony/chrony.conf
+        content: |
+          pool time.windows.com iburst
+          pool ntp.nist.gov iburst
+
+    - name: Restart chrony
+      service:
+        name: chrony
+        state: restarted

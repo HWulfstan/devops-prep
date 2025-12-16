@@ -1,0 +1,37 @@
+- name: Deploy Django app with Docker
+  hosts: local
+  become: true
+
+  vars:
+    project_dir: /home/kyryl/devops-prep/twitter_clone
+
+  tasks:
+    - name: Stop containers
+      command: docker compose down
+      args:
+        chdir: "{{ project_dir }}"
+
+    - name: Build containers
+      command: docker compose build
+      args:
+        chdir: "{{ project_dir }}"
+
+    - name: Run migrations
+      command: docker compose run backend python manage.py migrate
+      args:
+        chdir: "{{ project_dir }}"
+
+    - name: Collect static files
+      command: docker compose run backend python manage.py collectstatic --noinput
+      args:
+        chdir: "{{ project_dir }}"
+
+    - name: Run tests
+      command: docker compose run backend python manage.py test
+      args:
+        chdir: "{{ project_dir }}"
+
+    - name: Start containers
+      command: docker compose up -d
+      args:
+        chdir: "{{ project_dir }}"

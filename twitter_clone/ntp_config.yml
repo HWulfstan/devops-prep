@@ -1,0 +1,44 @@
+---
+- name: Configure NTP
+  hosts: all
+  become: yes
+
+  vars:
+    ntp_servers:
+      - time.windows.com
+      - ntp.nist.gov
+
+  tasks:
+    - name: Install NTP
+      apt:
+        name: ntp
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install NTP on RHEL
+      yum:
+        name: chrony
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Configure NTP servers
+      copy:
+        dest: /etc/ntp.conf
+        content: |
+          driftfile /var/lib/ntp/ntp.drift
+          pool time.windows.com iburst
+          pool ntp.nist.gov iburst
+
+    - name: Restart NTP service
+      service:
+        name: ntp
+        state: restarted
+        enabled: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Restart chrony service
+      service:
+        name: chronyd
+        state: restarted
+        enabled: yes
+      when: ansible_os_family == "RedHat"
