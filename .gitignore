@@ -1,1 +1,22 @@
 minikube-linux-amd64
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# Virtual environments
+venv/
+myenv/
+
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+
+# Secrets
+.env
+
+# Archives
+*.zip

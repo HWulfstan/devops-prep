@@ -32,3 +32,14 @@ def delete_tweet(request, tweet_id):
     tweet = get_object_or_404(Tweet, id=tweet_id)
     tweet.delete()
     return redirect('tweet_list')
+
+
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+from django.http import HttpResponse
+
+
+def metrics(request):
+    return HttpResponse(
+        generate_latest(),
+        content_type=CONTENT_TYPE_LATEST
+    )
