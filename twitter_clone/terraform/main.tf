@@ -52,7 +52,7 @@ resource "docker_container" "backend" {
   image = docker_image.backend.name
 
   env = [
-    "PORT=${var.backend_port}"
+    "APP_PORT=${var.backend_port}"
   ]
 
   ports {
@@ -68,4 +68,3 @@ resource "docker_container" "backend" {
     docker_container.postgres
   ]
 }
-
