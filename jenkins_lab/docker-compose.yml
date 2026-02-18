@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    ports:
+      - "8080:8080"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    restart: unless-stopped
+
+  jenkins-agent:
+    image: jenkins/inbound-agent:latest
+    container_name: jenkins-agent
+    environment:
+      - JENKINS_URL=http://jenkins:8080
+      - JENKINS_AGENT_NAME=docker-agent
+      - JENKINS_SECRET=20158f5b3a362184588cc3a69abb6e78f178b3534a62ea43a1e56357dcc62d22
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - jenkins
+
+
+volumes:
+  jenkins_home:
